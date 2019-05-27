@@ -108,7 +108,29 @@ docker rm 68a814e790e6
 
 
 
-Case 9: play with template
-Command: /bin/sh
-Arguments: ???.sh
 
+
+Case 9: play with template
+1. In the ui(Admin.Templates), create template myTemplate1 based on existing pipeline rest-example-multiStages.
+2. In the ui(Admin.Piplines), create pipeline pipelineUsingMyTemplate1: Under development group,
+   click link "Create a new pipeline within this group. Step 1, Pipeline Name: pipelineUsingMyTemplate1.
+   Step 2, material url points to https://github.com/sliu99/gocd_template.git,
+   Step 3, Select using template myTemplate1. So I don't need to specify job and task.
+   
+After run pipeline successfully,
+docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+335aa21f1570        rest-example        "/bin/sh -c 'java -j…"   36 seconds ago      Up 34 seconds       0.0.0.0:8080->8080/tcp   rest-example-container
+
+curl http://localhost:8080/books  //works
+ifconfig: get 192.168.40.135
+On windows Chrome browser, http://192.168.40.135:8080/books,  works
+
+//to cleanup
+docker stop 335aa21f1570
+
+docker ps -a
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS                        PORTS               NAMES
+335aa21f1570        rest-example                 "/bin/sh -c 'java -j…"   26 minutes ago      Exited (143) 
+
+docker rm 335aa21f1570
